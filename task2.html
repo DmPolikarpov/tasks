@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Slider</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$( function() {
+			//flag to switch between font color and background color
+			var color = true;
+			//function to hexadecimal string for styles
+			function hexFromRGB(r, g, b) {
+			var hex = [
+				r.toString( 16 ),
+				g.toString( 16 ),
+				b.toString( 16 )
+			];
+			$.each( hex, function( nr, val ) {
+				if ( val.length === 1 ) {
+				hex[ nr ] = "0" + val;
+				}
+			});
+			return hex.join( "" ).toUpperCase();
+			}
+			//function to update output
+			function refreshOutput() {
+				var red = $( "#red" ).slider( "value" ),
+					green = $( "#green" ).slider( "value" ),
+					blue = $( "#blue" ).slider( "value" ),
+					hex = hexFromRGB( red, green, blue );
+				if (color) {
+					$( "#output-box" ).css( "color", "#" + hex );
+				} else {
+					$( "#output-box" ).css( "background-color", "#" + hex );
+				}
+			}
+			//listens and processes color button click events
+			$("#color").click(function() {
+				$("#bg").removeClass("active");
+				$("#color").addClass("active");
+				color = true;
+			})
+			//listens and processes bg button click events
+			$("#bg").click(function() {
+				$("#color").removeClass("active");
+				$("#bg").addClass("active");
+				color = false;
+			})
+			//creates sliders
+			$( "#red, #green, #blue" ).slider({
+			orientation: "horizontal",
+			range: "min",
+			max: 255,
+			value: 127,
+			slide: refreshOutput,
+			change: refreshOutput
+			});
+			//assigns initial values to sliders
+			$( "#red" ).slider( "value", 120 );
+			$( "#green" ).slider( "value", 120 );
+			$( "#blue" ).slider( "value", 120 );
+		});
+	</script>
+</head>
+<body>
+	<!-- common container (the whole page) -->
+    <div class="container">
+		<!-- contant container (with white background) -->
+        <div class="content">
+			<!-- menu -->
+			<div class="menu-options">
+				<p class="menu-title">Select:</p>
+				<div class="menu-content">
+					<button id="color" class="menu-button active">color</button>
+					<button id="bg" class="menu-button">backgroundColor</button>
+				</div>
+			</div>
+			<!-- the main section -->
+			<div class="work-place">
+				<!-- sliders -->
+				<div class="input-container">
+					<div id="red" class="color-slider"></div>
+					<div id="green" class="color-slider"></div>
+					<div id="blue" class="color-slider"></div>
+				</div>
+				<!-- output -->
+				<div id="output-box" class="ui-widget-content ui-corner-all">
+					<p>
+						quod minus alias quos perferendis labore molestias quae ut ut corporis 
+						deserunt vitae et quaerat ut et ullam unde asperiores cum voluptatem cumque
+					</p>
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
+</html>
